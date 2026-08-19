@@ -1,10 +1,5 @@
 {% include 'LICENSE.jinja2' %}
 
-{% if device_info.device_uses_updatable_apex %}
-# Enable updating of APEXes
-$(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
-
-{% endif %}
 {% if device_info.device_is_ab %}
 # A/B
 {% if device_info.device_uses_virtual_ab %}
