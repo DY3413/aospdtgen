@@ -23,7 +23,6 @@ class BootConfiguration:
         self.init_boot = self._get_image_path("init_boot")
         self.recovery = self._get_image_path("recovery")
         self.vendor_boot = self._get_image_path("vendor_boot")
-        self.vendor_kernel_boot = self._get_image_path("vendor_kernel_boot")
 
         assert self.boot, "No boot image found"
 
@@ -38,10 +37,6 @@ class BootConfiguration:
 
         self.vendor_boot_aik_manager, self.vendor_boot_image_info = self._extract_if_exists(
             self.vendor_boot
-        )
-
-        self.vendor_kernel_boot_aik_manager, self.vendor_kernel_boot_image_info = (
-            self._extract_if_exists(self.vendor_kernel_boot)
         )
 
         self.kernel = self.boot_image_info.kernel
@@ -66,16 +61,6 @@ class BootConfiguration:
             self.base_address = self.init_boot_image_info.base_address or self.base_address
             self.cmdline = self.init_boot_image_info.cmdline or self.cmdline
             self.pagesize = self.init_boot_image_info.pagesize or self.pagesize
-
-        if self.vendor_kernel_boot_image_info:
-            self.kernel = self.vendor_kernel_boot_image_info.kernel or self.kernel
-            self.dt = self.vendor_kernel_boot_image_info.dt or self.dt
-            self.dtb = self.vendor_kernel_boot_image_info.dtb or self.dtb
-            self.dtbo = self.vendor_kernel_boot_image_info.dtbo or self.dtbo
-
-            self.base_address = self.vendor_kernel_boot_image_info.base_address or self.base_address
-            self.cmdline = self.vendor_kernel_boot_image_info.cmdline or self.cmdline
-            self.pagesize = self.vendor_kernel_boot_image_info.pagesize or self.pagesize
 
     def _get_image_path(self, partition: str) -> Union[Path, None]:
         path = self.dump_path / f"{partition}.img"
@@ -119,6 +104,3 @@ class BootConfiguration:
 
         if self.vendor_boot_aik_manager:
             self.vendor_boot_aik_manager.cleanup()
-
-        if self.vendor_kernel_boot_aik_manager:
-            self.vendor_kernel_boot_aik_manager.cleanup()
