@@ -97,7 +97,7 @@ class DeviceTree:
             )
 
     def dump_to_folder(self, folder: Path):
-        """Dump all makefiles, blueprint and prebuilts to a folder."""
+        """Dump all makefiles, blueprint to a folder."""
         if folder.is_dir():
             rmtree(folder)
         folder.mkdir(parents=True)
@@ -128,12 +128,6 @@ class DeviceTree:
         # Dump build props
         for partition in self.partitions.get_all_partitions():
             dump_partition_build_prop(partition.build_prop, folder / f"{partition.model.name}.prop")
-
-        # Dump boot image prebuilt files
-        prebuilts_path = folder / "prebuilts"
-        prebuilts_path.mkdir()
-
-        self.boot_configuration.copy_files_to_folder(prebuilts_path)
 
         # Dump rootdir
         rootdir_path = folder / "rootdir"

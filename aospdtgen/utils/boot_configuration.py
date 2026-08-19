@@ -78,20 +78,6 @@ class BootConfiguration:
 
         return aik_manager, image_info
 
-    def copy_files_to_folder(self, folder: Path) -> None:
-        """Copy all prebuilts to a folder."""
-        if self.kernel:
-            (folder / "kernel").write_bytes(self.kernel.read_bytes())
-
-        if self.dt:
-            (folder / "dt.img").write_bytes(self.dt.read_bytes())
-
-        if self.dtb:
-            (folder / "dtb.img").write_bytes(self.dtb.read_bytes())
-
-        if self.dtbo:
-            (folder / "dtbo.img").write_bytes(self.dtbo.read_bytes())
-
     def cleanup(self):
         """Cleanup all the temporary files. Do not use this object anymore after calling this."""
         self.boot_aik_manager.cleanup()
